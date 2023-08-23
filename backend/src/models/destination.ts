@@ -5,8 +5,8 @@ const destinationSchema = new Schema({
   image: { type: String, required: true },
   description: { type: String, required: true },
   geolocation: { type: String, required: true },
-  start_date: { type: Date, required: true },
-  end_date: { type: Date, required: true },
+  start_date: { type: Date },
+  end_date: { type: Date },
 });
 
 type Destination = InferSchemaType<typeof destinationSchema>;

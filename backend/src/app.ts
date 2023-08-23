@@ -1,27 +1,31 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
-import DestinationModel from "./models/destination";
+import DestinationsRoutes from "./routes/DestinationsRouter";
+import morgan from "morgan";
+import createHttpError, { isHttpError } from "http-errors";
 
 const app = express();
 
-app.get("/", async (req, res, next) => {
-  try {
-    const destinations = await DestinationModel.find().exec();
-    res.status(200).json(destinations);
-  } catch (error) {
-    next(error);
-  }
-});
+app.use(morgan("dev"));
+
+app.use(express.json());
+
+app.use("/api/destinations", DestinationsRoutes);
 
 app.use((req, res, next) => {
-  next(Error("Not found"));
+  next(createHttpError(404, "Not found"));
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
   console.error(error);
-  let message = "Unknown error";
-  if (error instanceof Error) message = error.message;
-  res.status(500).json({ error: message });
+  let message = "Unknown error occured";
+  let status = 500;
+  if (isHttpError(error)) {
+    status = error.status;
+    message = error.message;
+  }
+  res.status(status).json({ error: message });
 });
 
 export default app;
