@@ -3,8 +3,17 @@ import express, { NextFunction, Request, Response } from "express";
 import DestinationsRoutes from "./routes/DestinationsRouter";
 import morgan from "morgan";
 import createHttpError, { isHttpError } from "http-errors";
+import cors from "cors";
 
 const app = express();
+
+const corsOptions = {
+  origin: "http://localhost:5173",
+  methods: "GET,PUT,PATCH,POST,DELETE",
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(morgan("dev"));
 
