@@ -1,16 +1,16 @@
 import express from "express";
-import * as DestinationsController from "../controllers/DestinationsController";
+import * as DestinationController from "../controllers/DestinationController";
 
 const router = express.Router();
 
-router.get("/", DestinationsController.getDestinations);
+router.get("/", DestinationController.getDestinations);
 
-router.post("/", DestinationsController.addDestination);
+router.post("/", DestinationController.addDestination);
 
-router.get("/:destinationId", DestinationsController.getDestinationById);
+router.get("/:destinationId", DestinationController.getDestinationById);
 
-router.delete("/:destinationId", DestinationsController.deleteDestination);
+router.delete("/:destinationId", DestinationController.deleteDestination);
 
-router.patch("/:destinationId", DestinationsController.updateDestination);
+router.patch("/:destinationId", DestinationController.updateDestination);
 
 export default router;
