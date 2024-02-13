@@ -1,9 +1,13 @@
-export interface Destination {
-  _id: string;
-  title: string;
-  image: string;
-  description: string;
-  geolocation: string;
-  start_date?: string;
-  end_date?: string;
+import { Document, Schema } from "mongoose";
+
+export interface IDestination extends Document {
+    _id: string;
+    title: string;
+    image: string;
+    description: string;
+    geolocation: string;
+    isPublic: boolean;
+    userId: Schema.Types.ObjectId;
+    start_date?: string;
+    end_date?: string;
 }

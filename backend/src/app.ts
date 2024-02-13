@@ -7,6 +7,7 @@ import createHttpError, { isHttpError } from "http-errors";
 import cors from "cors";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import { requiresAuth } from "./middleware/auth";
 
 const app = express();
 
@@ -37,7 +38,7 @@ app.use(
     })
 );
 
-app.use("/api/destinations", DestinationsRoutes);
+app.use("/api/destinations", requiresAuth, DestinationsRoutes);
 app.use("/api/users", UsersRoutes);
 
 app.use((req, res, next) => {

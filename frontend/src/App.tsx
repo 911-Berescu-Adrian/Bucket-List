@@ -1,38 +1,26 @@
-import { useEffect, useState } from "react";
 import "./App.css";
-import { Destination as DestinationModel } from "./models/destination";
-import Destination from "./components/Destination";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import DestinationsPage from "./pages/DestinationsPage";
+import AddDestinationPage from "./pages/AddDestinationPage";
+import NotFoundPage from "./pages/NotFoundPage";
+import UpdateDestinationPage from "./pages/UpdateDestinationPage";
 
 function App() {
-    const [destinations, setDestinations] = useState<DestinationModel[]>([]);
-
-    useEffect(() => {
-        async function fetchDestinations() {
-            try {
-                const response = await fetch("http://localhost:3000/api/destinations", {
-                    method: "GET",
-                });
-                const destinations = await response.json();
-                setDestinations(destinations);
-            } catch (error) {
-                console.error(error);
-                alert(error);
-            }
-        }
-        fetchDestinations();
-    }, []);
-
     return (
-        <>
-            <h1>Destinations</h1>
-            <ul>
-                {destinations.map((destination) => (
-                    <li key={destination._id}>
-                        <Destination destination={destination} />
-                    </li>
-                ))}
-            </ul>
-        </>
+        <Router>
+            <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignUpPage />} />
+                <Route path="/destinations" element={<DestinationsPage />} />
+                <Route path="/add" element={<AddDestinationPage />} />
+                <Route path="/update/:id" element={<UpdateDestinationPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+        </Router>
     );
 }
 
