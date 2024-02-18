@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../constants";
+import { useLoginStore } from "../store/LoginStore";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const { saveUsername, isLogged, logIn } = useLoginStore();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isLogged) {
+            navigate("/destinations");
+        }
+    }, [isLogged]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -25,8 +35,9 @@ export default function LoginPage() {
                     const data = await response.json();
                     throw new Error(data.error);
                 }
-
-                window.location.href = "/destinations";
+                const responseData = await response.json();
+                saveUsername(responseData.username);
+                logIn();
             } catch (error) {
                 setError((error as Error).message);
             }

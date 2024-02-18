@@ -1,6 +1,6 @@
 import { Document, Schema } from "mongoose";
 
-export interface IDestination extends Document {
+export interface Destination extends Document {
     _id: string;
     title: string;
     image: string;
