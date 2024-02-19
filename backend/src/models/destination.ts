@@ -6,7 +6,7 @@ const destinationSchema = new Schema({
     description: { type: String, required: true },
     geolocation: { type: String, required: true },
     isPublic: { type: Boolean, required: true },
-    userId: { type: Schema.Types.ObjectId, required: true },
+    username: { type: String, required: true },
     start_date: { type: Date },
     end_date: { type: Date },
 });

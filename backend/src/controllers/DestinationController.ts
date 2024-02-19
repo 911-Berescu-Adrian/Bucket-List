@@ -33,35 +33,50 @@ export const getDestinationById: RequestHandler = async (req, res, next) => {
 
 interface AddDestinationBody {
     title?: string;
-    image?: string;
     description?: string;
     isPublic?: boolean;
-    userId?: Schema.Types.ObjectId;
-    geolocation?: string;
+    username?: Schema.Types.ObjectId;
     start_date?: Date;
     end_date?: Date;
 }
 
 export const addDestination: RequestHandler<unknown, unknown, AddDestinationBody, unknown> = async (req, res, next) => {
     const title = req.body.title;
-    const image = req.body.image;
     const description = req.body.description;
     const isPublic = req.body.isPublic;
-    const userId = req.body.userId;
-    const geolocation = req.body.geolocation;
+    const username = req.body.username;
     const start_date = req.body.start_date;
     const end_date = req.body.end_date;
     try {
-        if (!title || !image || !description || !geolocation || !start_date || !end_date || !isPublic || !userId) {
+        if (!title || !description || !start_date || !end_date || !isPublic || !username) {
             throw createHttpError(400, "Missing required fields");
         }
+
+        const headers = new Headers();
+        const pexelsApiKey = process.env.PEXELS_API_KEY;
+
+        if (pexelsApiKey) {
+            headers.append("Authorization", pexelsApiKey);
+        }
+
+        const resp = await fetch(`https://api.pexels.com/v1/search?query=${title}&per_page=1&orientation=landscape`, {
+            headers,
+        });
+
+        const data = await resp.json();
+        const image = data.photos[0].src.original;
+
+        const latitude = Math.random() * 180 - 90;
+        const longitude = Math.random() * 360 - 180;
+        const geolocation = `${latitude},${longitude}`;
+
         const newDestination = await DestinationModel.create({
             title: title,
-            image: image,
             isPublic: isPublic,
-            userId: userId,
-            description: description,
+            username: username,
+            image: image,
             geolocation: geolocation,
+            description: description,
             start_date: start_date,
             end_date: end_date,
         });
