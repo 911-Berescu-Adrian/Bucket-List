@@ -36,8 +36,8 @@ interface AddDestinationBody {
     description?: string;
     isPublic?: boolean;
     username?: Schema.Types.ObjectId;
-    start_date?: Date;
-    end_date?: Date;
+    startDate?: Date;
+    endDate?: Date;
 }
 
 export const addDestination: RequestHandler<unknown, unknown, AddDestinationBody, unknown> = async (req, res, next) => {
@@ -45,8 +45,9 @@ export const addDestination: RequestHandler<unknown, unknown, AddDestinationBody
     const description = req.body.description;
     const isPublic = req.body.isPublic;
     const username = req.body.username;
-    const start_date = req.body.start_date;
-    const end_date = req.body.end_date;
+    const start_date = req.body.startDate;
+    const end_date = req.body.endDate;
+    console.log(title, description, isPublic, username, start_date, end_date);
     try {
         if (!title || !description || !start_date || !end_date || !isPublic || !username) {
             throw createHttpError(400, "Missing required fields");

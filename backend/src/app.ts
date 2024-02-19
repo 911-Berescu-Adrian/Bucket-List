@@ -38,7 +38,7 @@ app.use(
     })
 );
 
-app.use("/api/destinations", requiresAuth, DestinationsRoutes);
+app.use("/api/destinations", DestinationsRoutes);
 app.use("/api/users", UsersRoutes);
 
 app.use((req, res, next) => {
