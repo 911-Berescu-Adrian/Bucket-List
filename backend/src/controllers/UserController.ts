@@ -45,6 +45,7 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
             username: username,
         });
         req.session.userId = user._id;
+        req.session.username = user.username;
 
         res.status(201).json(user);
     } catch (error) {
@@ -73,6 +74,7 @@ export const login: RequestHandler<unknown, unknown, LoginBody, unknown> = async
             throw createHttpError(401, "Invalid email or password");
         }
         req.session.userId = user._id;
+        req.session.username = user.username;
         res.status(200).json(user);
     } catch (error) {
         next(error);

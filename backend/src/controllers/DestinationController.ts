@@ -6,7 +6,7 @@ import mongoose, { Schema } from "mongoose";
 export const getDestinations: RequestHandler = async (req, res, next) => {
     try {
         const destinations = await DestinationModel.find({
-            $or: [{ isPublic: true }, { userId: req.session.userId }],
+            $or: [{ isPublic: true }, { username: req.session.username }],
         }).exec();
         res.status(200).json(destinations);
     } catch (error) {
@@ -49,7 +49,7 @@ export const addDestination: RequestHandler<unknown, unknown, AddDestinationBody
     const end_date = req.body.endDate;
     console.log(title, description, isPublic, username, start_date, end_date);
     try {
-        if (!title || !description || !start_date || !end_date || !isPublic || !username) {
+        if (!title || !description || !start_date || !end_date || isPublic === undefined || !username) {
             throw createHttpError(400, "Missing required fields");
         }
 

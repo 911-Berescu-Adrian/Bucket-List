@@ -1,4 +1,3 @@
-import React from "react";
 import { Destination as DestinationModel } from "../models/destination";
 
 interface DestinationProps {

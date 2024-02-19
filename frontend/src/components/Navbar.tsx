@@ -1,11 +1,10 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { MdAccountCircle } from "react-icons/md";
 import { useLoginStore } from "../store/LoginStore";
 import { BACKEND_URL } from "../constants";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
-    const dropdownRef = useRef(null);
 
     const handleLogout = async () => {
         try {
@@ -23,9 +22,9 @@ export default function Navbar() {
     };
 
     return (
-        <div className="fixed top-0  w-6/12 z-50 bg-transparent flex justify-between items-center p-4">
+        <div className="fixed top-0  w-5/6 z-50 backdrop-blur-sm flex justify-between items-center p-4 mb-10">
             <h1 className="ml-[-8rem]">Destination Bucket List</h1>
-            <div className="relative" ref={dropdownRef}>
+            <div className="relative">
                 <div className="flex items-center cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
                     <MdAccountCircle size={24} />
                     <UserProfile />
